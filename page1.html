@@ -2,241 +2,142 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>ScienceLab Virtuel - Labo Ultime</title>
-<style>
-/* ===== BODY ===== */
-body { margin: 0; font-family: 'Segoe UI', sans-serif; background-color: black; color: #00BFFF; overflow-x: hidden; }
+<title>ScienceLab</title>
 
-/* ===== HEADER ===== */
-header {
-    background: rgba(0,0,0,0.8);
-    padding: 30px;
-    text-align: center;
-    font-size: 36px;
-    font-weight: bold;
-    color: #00fff0;
-    text-shadow: 0 0 10px #00fff0, 0 0 20px #00fff0aa;
-    backdrop-filter: blur(15px);
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* ===== NAVBAR ===== */
-nav {
+body {
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+    height: 100vh;
+    overflow: hidden;
+    background: url("https://images.unsplash.com/photo-1502139214982-d0ad755818d8") no-repeat center/cover;
+}
+
+/* Overlay sombre */
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+}
+
+/* 💡 Lumière */
+.light {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 600px;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.25), transparent 70%);
+    filter: blur(50px);
+}
+
+/* 🧭 Navbar */
+.navbar {
+    position: absolute;
+    top: 20px;
+    width: 100%;
     display: flex;
     justify-content: center;
-    background: rgba(0,0,0,0.6);
-    backdrop-filter: blur(15px);
-    flex-wrap: wrap;
+    z-index: 2;
 }
 
-nav button {
-    background: none;
-    border: 2px solid #00fff0;
-    border-radius: 12px;
-    color: #00fff0;
-    padding: 14px 28px;
-    margin: 10px;
+.navbar ul {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+    background: rgba(255,255,255,0.05);
+    padding: 10px 25px;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+}
+
+.navbar li {
     cursor: pointer;
-    font-size: 16px;
     transition: 0.3s;
 }
 
-nav button:hover {
-    background: #00fff033;
-    transform: scale(1.1);
-    box-shadow: 0 0 20px #00fff0, 0 0 40px #00fff0aa inset;
+.navbar li:hover {
+    color: #8ab4ff;
 }
 
-/* ===== SECTIONS ===== */
-.section {
-    display: none;
-    padding: 40px;
-    text-align: center;
-    animation: fade 0.6s ease;
-}
-
-.active {
-    display: block;
-}
-
-@keyframes fade {
-    from {opacity: 0; transform: translateY(20px);}
-    to {opacity: 1; transform: translateY(0);}
-}
-
-/* ===== IFRAMES ===== */
-iframe {
-    margin-top: 25px;
-    width: 90%;
-    height: 500px;
-    border-radius: 20px;
-    border: 2px solid #00fff0;
-    box-shadow: 0 0 25px #00fff0aa, 0 0 10px #00fff0 inset;
-}
-
-/* ===== LABO ===== */
-#laboZone {
-    width: 250px;
-    height: 250px;
-    margin: 40px auto;
-    background: radial-gradient(circle at center, #111 0%, #222 100%);
-    border-radius: 25px;
-    box-shadow: 0 0 40px #00fff0, inset 0 0 25px #00fff0;
-    transition: 0.5s;
+/* 📦 Contenu */
+.container {
     position: relative;
-    overflow: hidden;
+    z-index: 2;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-/* ===== LABO GLOW ANIMATION ===== */
-@keyframes glowPulse {
-    0%,100% { box-shadow: 0 0 30px #ff00ff, inset 0 0 20px #00ffff; }
-    50% { box-shadow: 0 0 60px #ff00ff, inset 0 0 40px #00ffff; }
+/* 🧠 Titre */
+h1 {
+    font-size: 70px;
+    letter-spacing: 4px;
+    text-shadow: 0 0 25px rgba(255,255,255,0.6);
 }
 
-/* ===== BULLES ===== */
-.bubble {
-    position: absolute;
-    bottom: 10px;
-    width: 10px;
-    height: 10px;
-    background: #00ffff;
-    border-radius: 50%;
-    opacity: 0.8;
-    animation: rise 3s linear infinite;
+/* 📝 Texte */
+p {
+    margin-top: 15px;
+    color: #ccc;
+    font-size: 18px;
 }
 
-@keyframes rise {
-    0% { transform: translateY(0) scale(1); opacity: 0.8;}
-    50% { opacity: 1; }
-    100% { transform: translateY(-200px) scale(1.5); opacity: 0;}
-}
-
-/* ===== BOUTONS LABO ===== */
-button.action {
-    margin: 10px;
-    padding: 14px 28px;
-    border: 2px solid #00fff0;
-    border-radius: 15px;
-    background: #111;
-    color: #00fff0;
+/* 🚀 Bouton */
+button {
+    margin-top: 30px;
+    padding: 14px 35px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(45deg, #6ea8ff, #a66eff);
+    color: white;
+    font-size: 16px;
     cursor: pointer;
-    font-weight: bold;
     transition: 0.3s;
 }
 
-button.action:hover {
-    background: #000;
-    box-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff inset;
+button:hover {
     transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(120,160,255,0.9);
 }
 
-/* ===== RESULTAT ===== */
-#resultat {
-    font-size: 22px;
-    color: #ffffffaa;
-    margin-top: 20px;
-    text-shadow: 0 0 5px #00fff0;
-    transition: 0.3s;
-}
-
-/* ===== PULSING TEXT ===== */
-.pulse {
-    animation: pulseText 1s infinite alternate;
-}
-
-@keyframes pulseText {
-    0% { text-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff; color: #ff00ff; }
-    100% { text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff; color: #00ffff; }
+/* 📱 Responsive */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 40px;
+    }
 }
 </style>
 </head>
+
 <body>
 
-<header>🔬 ScienceLab Virtuel</header>
+<div class="overlay"></div>
+<div class="light"></div>
 
-<nav>
-    <button onclick="show('home')">Accueil</button>
-    <button onclick="show('college')">Collège</button>
-    <button onclick="show('lycee')">Lycée</button>
-    <button onclick="show('labo')">Labo</button>
-</nav>
-
-<!-- ACCUEIL -->
-<div id="home" class="section active">
-    <h1>Bienvenue 👋</h1>
-    <p>Fais des expériences scientifiques interactives du collège à la terminale.</p>
+<!-- Navbar -->
+<div class="navbar">
+    <ul>
+        <li>Accueil</li>
+        <li>Expériences</li>
+        <li>Contact</li>
+    </ul>
 </div>
 
-<!-- COLLEGE -->
-<div id="college" class="section">
-    <h2>Collège</h2>
-    <p>États de la matière, énergie, électricité</p>
-    <iframe src="https://phet.colorado.edu/sims/html/states-of-matter/latest/states-of-matter_en.html"></iframe>
+<!-- Contenu -->
+<div class="container">
+    <h1>ScienceLab</h1>
+    <p>Where science meets the future</p>
+    <button onclick="alert('Bienvenue dans ScienceLab 🚀')">Commencer</button>
 </div>
-
-<!-- LYCEE -->
-<div id="lycee" class="section">
-    <h2>Lycée</h2>
-    <p>Réactions chimiques, ondes, circuits</p>
-    <iframe src="https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_en.html"></iframe>
-</div>
-
-<!-- LABO INTERACTIF -->
-<div id="labo" class="section">
-    <h2>🧪 Labo Ultime</h2>
-    <div id="laboZone"></div>
-    <br>
-    <button class="action" onclick="acide()">Ajouter Acide</button>
-    <button class="action" onclick="base()">Ajouter Base</button>
-    <button class="action" onclick="reset()">Reset</button>
-    <p id="resultat">Aucune réaction</p>
-</div>
-
-<script>
-/* NAVIGATION */
-function show(id){
-    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-}
-
-/* LABO */
-let a = 0;
-let b = 0;
-const labo = document.getElementById("laboZone");
-const resultat = document.getElementById("resultat");
-
-function acide(){ a++; verifier(); }
-function base(){ b++; verifier(); }
-
-function verifier(){
-    labo.innerHTML = '';
-    if(a>0 && b>0){
-        // Dégradé dynamique
-        const pctA = Math.min(a*10, 100);
-        const pctB = Math.min(b*10, 100);
-        labo.style.background = `radial-gradient(circle at center, #ff00ff ${pctA}%, #00ffff ${pctB}%, #111 100%)`;
-        labo.style.animation = "glowPulse 1.5s infinite alternate";
-        resultat.innerHTML = "💥 <span class='pulse'>Réaction chimique réussie !</span>";
-
-        // Ajout de bulles
-        for(let i=0;i<5;i++){
-            const bubble = document.createElement('div');
-            bubble.classList.add('bubble');
-            bubble.style.left = Math.random()*100 + '%';
-            bubble.style.width = bubble.style.height = (5 + Math.random()*15) + 'px';
-            bubble.style.background = (Math.random()<0.5)? '#ff00ff' : '#00ffff';
-            labo.appendChild(bubble);
-        }
-    }
-}
-
-function reset(){
-    a=0; b=0;
-    labo.innerHTML = '';
-    labo.style.background = 'radial-gradient(circle at center, #111 0%, #222 100%)';
-    labo.style.animation = "none";
-    resultat.innerHTML = "Aucune réaction";
-}
-</script>
 
 </body>
 </html>
