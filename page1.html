@@ -2,251 +2,175 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>ScienceLab Ultime</title>
-
+<title>ScienceLab Virtuel - Labo Ultime</title>
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+/* ===== BODY ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0a0a0a, #1c1c1f);
+    color: #ffffffcc;
+    overflow-x: hidden;
 }
 
-body{
-    font-family:'Segoe UI',sans-serif;
-    color:white;
-    min-height:100vh;
-    background:url("https://images.unsplash.com/photo-1502139214982-d0ad755818d8") no-repeat center/cover;
-    overflow-x:hidden;
+/* ===== HEADER ===== */
+header {
+    background: linear-gradient(90deg, #0f0c29, #302b63, #24243e);
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
-/* OVERLAY */
-.overlay{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.75);
-    z-index:0;
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    color: #00ffff;
+    text-shadow: 2px 2px 5px #000;
 }
 
-/* LUMIERE */
-.light{
-    position:fixed;
-    top:0;
-    left:50%;
-    transform:translateX(-50%);
-    width:400px;
-    height:600px;
-    background:radial-gradient(ellipse, rgba(255,255,255,0.2), transparent 70%);
-    filter:blur(50px);
+/* ===== NAV BUTTONS ===== */
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
 }
 
-/* HEADER */
-header{
-    position:relative;
-    z-index:2;
-    text-align:center;
-    padding:30px;
-    font-size:40px;
-    color:#8ab4ff;
-    text-shadow:0 0 20px #8ab4ff;
+nav button {
+    background: linear-gradient(145deg, #00ffff, #0066ff);
+    border: none;
+    padding: 15px 25px;
+    border-radius: 12px;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.4);
 }
 
-/* NAVBAR */
-nav{
-    position:relative;
-    z-index:2;
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
+nav button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,255,255,0.6);
 }
 
-nav button{
-    margin:10px;
-    padding:12px 25px;
-    border:none;
-    border-radius:25px;
-    background:rgba(255,255,255,0.08);
-    color:white;
-    cursor:pointer;
-    backdrop-filter:blur(10px);
-    transition:0.3s;
+/* ===== SECTIONS ===== */
+section {
+    padding: 50px 20px;
+    text-align: center;
 }
 
-nav button:hover{
-    background:linear-gradient(45deg,#6ea8ff,#a66eff);
-    transform:scale(1.1);
+section h2 {
+    font-size: 2em;
+    color: #00ffff;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 3px #000;
 }
 
-/* SECTIONS */
-.section{
-    display:none;
-    padding:40px;
-    text-align:center;
-    animation:fade 0.5s;
-    position:relative;
-    z-index:2;
+section p {
+    max-width: 800px;
+    margin: auto;
+    font-size: 1.1em;
+    line-height: 1.6em;
 }
 
-.active{
-    display:block;
+/* ===== PHYSICS CARDS ===== */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
 }
 
-@keyframes fade{
-    from{opacity:0; transform:translateY(20px);}
-    to{opacity:1; transform:translateY(0);}
+.card {
+    background: linear-gradient(135deg, #1c1c1f, #0a0a0a);
+    border-radius: 15px;
+    padding: 20px;
+    width: 250px;
+    text-align: left;
+    box-shadow: 0 5px 15px rgba(0,255,255,0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-/* IFRAMES */
-iframe{
-    margin-top:20px;
-    width:90%;
-    height:500px;
-    border-radius:20px;
-    border:none;
-    box-shadow:0 0 30px rgba(120,160,255,0.6);
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,255,255,0.6);
 }
 
-/* LABO */
-#laboZone{
-    width:250px;
-    height:250px;
-    margin:40px auto;
-    border-radius:25px;
-    background:radial-gradient(circle,#111,#222);
-    box-shadow:0 0 40px #6ea8ff;
-    position:relative;
-    overflow:hidden;
+.card h3 {
+    color: #00ffff;
+    margin-bottom: 10px;
 }
 
-/* BULLES */
-.bubble{
-    position:absolute;
-    bottom:0;
-    width:10px;
-    height:10px;
-    border-radius:50%;
-    animation:rise 3s linear infinite;
+.card p {
+    font-size: 0.95em;
 }
 
-@keyframes rise{
-    0%{transform:translateY(0);opacity:1;}
-    100%{transform:translateY(-200px);opacity:0;}
-}
-
-/* BOUTONS */
-button.action{
-    margin:10px;
-    padding:12px 25px;
-    border:none;
-    border-radius:25px;
-    background:linear-gradient(45deg,#6ea8ff,#a66eff);
-    color:white;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-button.action:hover{
-    transform:scale(1.1);
-    box-shadow:0 0 20px #8ab4ff;
-}
-
-/* RESULTAT */
-#resultat{
-    margin-top:20px;
-    font-size:20px;
-}
-
-/* TEXTE PULSE */
-.pulse{
-    animation:pulse 1s infinite alternate;
-}
-
-@keyframes pulse{
-    from{color:#ff00ff;}
-    to{color:#00ffff;}
+/* ===== FOOTER ===== */
+footer {
+    background: #111;
+    text-align: center;
+    padding: 20px;
+    color: #555;
+    font-size: 0.9em;
+    box-shadow: 0 -5px 10px rgba(0,0,0,0.5);
 }
 </style>
 </head>
-
 <body>
 
-<div class="overlay"></div>
-<div class="light"></div>
-
-<header>🔬 ScienceLab Ultime</header>
+<header>
+    <h1>ScienceLab Virtuel</h1>
+</header>
 
 <nav>
-<button onclick="show('home')">Accueil</button>
-<button onclick="show('college')">Collège</button>
-<button onclick="show('lycee')">Lycée</button>
-<button onclick="show('labo')">Labo</button>
+    <button onclick="scrollToSection('intro')">Introduction</button>
+    <button onclick="scrollToSection('physics')">Physique</button>
+    <button onclick="scrollToSection('chemistry')">Chimie</button>
+    <button onclick="scrollToSection('biology')">Biologie</button>
 </nav>
 
-<!-- HOME -->
-<div id="home" class="section active">
-<h1>Bienvenue 👋</h1>
-<p>Explore la science comme jamais 🚀</p>
-</div>
+<section id="intro">
+    <h2>Bienvenue dans le Labo Ultime</h2>
+    <p>Explorez la science à travers nos expériences virtuelles et interactives. Choisissez une discipline ci-dessus pour commencer.</p>
+</section>
 
-<!-- COLLEGE -->
-<div id="college" class="section">
-<h2>Collège</h2>
-<iframe src="https://phet.colorado.edu/sims/html/states-of-matter/latest/states-of-matter_en.html"></iframe>
-</div>
+<section id="physics">
+    <h2>Physique</h2>
+    <div class="card-container">
+        <div class="card">
+            <h3>Expérience: Chute Libre</h3>
+            <p>Observez comment les objets tombent à la même vitesse, peu importe leur masse, et découvrez la loi de la gravité.</p>
+        </div>
+        <div class="card">
+            <h3>Expérience: Pendule</h3>
+            <p>Mesurez la période d’un pendule et explorez les forces en action.</p>
+        </div>
+        <div class="card">
+            <h3>Expérience: Conductivité</h3>
+            <p>Testez différents matériaux pour voir lesquels conduisent l’électricité et comprenez les bases de l’électricité.</p>
+        </div>
+    </div>
+</section>
 
-<!-- LYCEE -->
-<div id="lycee" class="section">
-<h2>Lycée</h2>
-<iframe src="https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_en.html"></iframe>
-</div>
+<section id="chemistry">
+    <h2>Chimie</h2>
+    <p>Découverte des réactions chimiques sûres et interactives avec des explications simples pour comprendre les phénomènes.</p>
+</section>
 
-<!-- LABO -->
-<div id="labo" class="section">
-<h2>🧪 Labo</h2>
+<section id="biology">
+    <h2>Biologie</h2>
+    <p>Apprenez sur les cellules, les plantes, et les animaux à travers des expériences virtuelles et des simulations.</p>
+</section>
 
-<div id="laboZone"></div>
-
-<button class="action" onclick="acide()">Acide</button>
-<button class="action" onclick="base()">Base</button>
-<button class="action" onclick="reset()">Reset</button>
-
-<p id="resultat">Aucune réaction</p>
-</div>
+<footer>
+    &copy; 2026 ScienceLab Virtuel - Tous droits réservés
+</footer>
 
 <script>
-function show(id){
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-}
-
-let a=0,b=0;
-const labo=document.getElementById("laboZone");
-const res=document.getElementById("resultat");
-
-function acide(){a++;update();}
-function base(){b++;update();}
-
-function update(){
-    labo.innerHTML='';
-    if(a>0 && b>0){
-        labo.style.background="radial-gradient(circle,#ff00ff,#00ffff)";
-        res.innerHTML="💥 <span class='pulse'>Réaction réussie</span>";
-
-        for(let i=0;i<6;i++){
-            let div=document.createElement("div");
-            div.className="bubble";
-            div.style.left=Math.random()*100+"%";
-            div.style.background=Math.random()<0.5?"#ff00ff":"#00ffff";
-            labo.appendChild(div);
-        }
-    }
-}
-
-function reset(){
-    a=0;b=0;
-    labo.innerHTML="";
-    labo.style.background="radial-gradient(circle,#111,#222)";
-    res.innerHTML="Aucune réaction";
+// Fonction pour scroll vers la section choisie
+function scrollToSection(sectionId) {
+    document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
 }
 </script>
 
