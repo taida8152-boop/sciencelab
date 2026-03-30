@@ -2,176 +2,252 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>ScienceLab Virtuel - Labo Ultime</title>
+<title>ScienceLab Ultime</title>
+
 <style>
-/* ===== BODY ===== */
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #0a0a0a, #1c1c1f);
-    color: #ffffffcc;
-    overflow-x: hidden;
+html {
+  scroll-behavior: smooth;
 }
 
-/* ===== HEADER ===== */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0a0a0a;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* CANVAS BACKGROUND */
+#bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* HEADER */
 header {
-    background: linear-gradient(90deg, #0f0c29, #302b63, #24243e);
-    padding: 20px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  text-align: center;
+  padding: 30px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(5px);
 }
 
 header h1 {
-    margin: 0;
-    font-size: 2.5em;
-    color: #00ffff;
-    text-shadow: 2px 2px 5px #000;
+  color: cyan;
+  font-size: 2.5em;
 }
 
-/* ===== NAV BUTTONS ===== */
+/* NAV */
 nav {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px;
 }
 
-nav button {
-    background: linear-gradient(145deg, #00ffff, #0066ff);
-    border: none;
-    padding: 15px 25px;
-    border-radius: 12px;
-    color: white;
-    font-size: 1em;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.4);
+nav a button {
+  background: linear-gradient(145deg, #00ffff, #0066ff);
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-nav button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,255,255,0.6);
+nav a button:hover {
+  transform: scale(1.1);
 }
 
-/* ===== SECTIONS ===== */
+/* SECTIONS */
 section {
-    padding: 50px 20px;
-    text-align: center;
+  padding: 60px 20px;
+  text-align: center;
 }
 
-section h2 {
-    font-size: 2em;
-    color: #00ffff;
-    margin-bottom: 20px;
-    text-shadow: 1px 1px 3px #000;
+h2 {
+  color: cyan;
 }
 
-section p {
-    max-width: 800px;
-    margin: auto;
-    font-size: 1.1em;
-    line-height: 1.6em;
-}
-
-/* ===== PHYSICS CARDS ===== */
-.card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 30px;
+/* CARDS */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
 }
 
 .card {
-    background: linear-gradient(135deg, #1c1c1f, #0a0a0a);
-    border-radius: 15px;
-    padding: 20px;
-    width: 250px;
-    text-align: left;
-    box-shadow: 0 5px 15px rgba(0,255,255,0.2);
-    transition: transform 0.3s, box-shadow 0.3s;
+  background: rgba(0,0,0,0.7);
+  padding: 20px;
+  border-radius: 15px;
+  width: 250px;
+  box-shadow: 0 0 15px rgba(0,255,255,0.3);
+  transition: 0.3s;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,255,255,0.6);
+  transform: translateY(-10px);
+  box-shadow: 0 0 25px cyan;
 }
 
-.card h3 {
-    color: #00ffff;
-    margin-bottom: 10px;
+.card button {
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  background: cyan;
+  color: black;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-.card p {
-    font-size: 0.95em;
-}
-
-/* ===== FOOTER ===== */
+/* FOOTER */
 footer {
-    background: #111;
-    text-align: center;
-    padding: 20px;
-    color: #555;
-    font-size: 0.9em;
-    box-shadow: 0 -5px 10px rgba(0,0,0,0.5);
+  text-align: center;
+  padding: 20px;
+  background: black;
+  color: gray;
 }
 </style>
 </head>
+
 <body>
 
+<!-- ANIMATION BACKGROUND -->
+<canvas id="bg"></canvas>
+
 <header>
-    <h1>ScienceLab Virtuel</h1>
+  <h1>ScienceLab Virtuel</h1>
 </header>
 
+<!-- NAVIGATION -->
 <nav>
-    <button onclick="scrollToSection('intro')">Introduction</button>
-    <button onclick="scrollToSection('physics')">Physique</button>
-    <button onclick="scrollToSection('chemistry')">Chimie</button>
-    <button onclick="scrollToSection('biology')">Biologie</button>
+  <a href="#intro"><button>Accueil</button></a>
+  <a href="#physique"><button>Physique</button></a>
+  <a href="#chimie"><button>Chimie</button></a>
+  <a href="#bio"><button>Biologie</button></a>
 </nav>
 
 <section id="intro">
-    <h2>Bienvenue dans le Labo Ultime</h2>
-    <p>Explorez la science à travers nos expériences virtuelles et interactives. Choisissez une discipline ci-dessus pour commencer.</p>
+  <h2>Bienvenue 👨🏾‍🔬</h2>
+  <p>Explore la science avec des expériences interactives !</p>
 </section>
 
-<section id="physics">
-    <h2>Physique</h2>
-    <div class="card-container">
-        <div class="card">
-            <h3>Expérience: Chute Libre</h3>
-            <p>Observez comment les objets tombent à la même vitesse, peu importe leur masse, et découvrez la loi de la gravité.</p>
-        </div>
-        <div class="card">
-            <h3>Expérience: Pendule</h3>
-            <p>Mesurez la période d’un pendule et explorez les forces en action.</p>
-        </div>
-        <div class="card">
-            <h3>Expérience: Conductivité</h3>
-            <p>Testez différents matériaux pour voir lesquels conduisent l’électricité et comprenez les bases de l’électricité.</p>
-        </div>
+<section id="physique">
+  <h2>Physique ⚡</h2>
+  <div class="container">
+
+    <div class="card">
+      <h3>Chute libre</h3>
+      <p>Tous les objets tombent à la même vitesse.</p>
+      <button onclick="alert('Gravité = 9.8 m/s²')">Tester</button>
     </div>
+
+    <div class="card">
+      <h3>Pendule</h3>
+      <p>Le temps dépend de la longueur.</p>
+      <button onclick="alert('Plus long = plus lent')">Tester</button>
+    </div>
+
+    <div class="card">
+      <h3>Électricité</h3>
+      <p>Certains matériaux conduisent.</p>
+      <button onclick="alert('Métal = conducteur')">Tester</button>
+    </div>
+
+  </div>
 </section>
 
-<section id="chemistry">
-    <h2>Chimie</h2>
-    <p>Découverte des réactions chimiques sûres et interactives avec des explications simples pour comprendre les phénomènes.</p>
+<section id="chimie">
+  <h2>Chimie 🧪</h2>
+  <div class="container">
+
+    <div class="card">
+      <h3>Réaction</h3>
+      <p>Mélange des substances.</p>
+      <button onclick="alert('Réaction chimique !')">Tester</button>
+    </div>
+
+    <div class="card">
+      <h3>pH</h3>
+      <p>Acide ou base.</p>
+      <button onclick="alert('pH < 7 = acide')">Tester</button>
+    </div>
+
+  </div>
 </section>
 
-<section id="biology">
-    <h2>Biologie</h2>
-    <p>Apprenez sur les cellules, les plantes, et les animaux à travers des expériences virtuelles et des simulations.</p>
+<section id="bio">
+  <h2>Biologie 🌱</h2>
+  <div class="container">
+
+    <div class="card">
+      <h3>Cellule</h3>
+      <p>Unité du vivant.</p>
+      <button onclick="alert('Toutes les cellules ont une membrane')">Tester</button>
+    </div>
+
+    <div class="card">
+      <h3>Plantes</h3>
+      <p>Photosynthèse.</p>
+      <button onclick="alert('Lumière + CO2 = énergie')">Tester</button>
+    </div>
+
+  </div>
 </section>
 
 <footer>
-    &copy; 2026 ScienceLab Virtuel - Tous droits réservés
+  2026 - ScienceLab Ultime 🚀
 </footer>
 
+<!-- SCRIPT ANIMATION -->
 <script>
-// Fonction pour scroll vers la section choisie
-function scrollToSection(sectionId) {
-    document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
+resize();
+
+let particles = [];
+
+for (let i = 0; i < 80; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2,
+    dx: (Math.random() - 0.5),
+    dy: (Math.random() - 0.5)
+  });
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(p => {
+    p.x += p.dx;
+    p.y += p.dy;
+
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = "cyan";
+    ctx.fill();
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize", resize);
 </script>
 
 </body>
