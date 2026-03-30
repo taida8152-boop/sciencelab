@@ -2,197 +2,252 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>ScienceLab PRO</title>
+<title>ScienceLab Ultime</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
 body{
     font-family:'Segoe UI',sans-serif;
-    background:#0a0a0f;
     color:white;
+    min-height:100vh;
+    background:url("https://images.unsplash.com/photo-1502139214982-d0ad755818d8") no-repeat center/cover;
+    overflow-x:hidden;
 }
 
-/* LOGIN */
-#auth{
+/* OVERLAY */
+.overlay{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.75);
+    z-index:0;
+}
+
+/* LUMIERE */
+.light{
+    position:fixed;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:400px;
+    height:600px;
+    background:radial-gradient(ellipse, rgba(255,255,255,0.2), transparent 70%);
+    filter:blur(50px);
+}
+
+/* HEADER */
+header{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    padding:30px;
+    font-size:40px;
+    color:#8ab4ff;
+    text-shadow:0 0 20px #8ab4ff;
+}
+
+/* NAVBAR */
+nav{
+    position:relative;
+    z-index:2;
     display:flex;
     justify-content:center;
-    align-items:center;
-    height:100vh;
+    flex-wrap:wrap;
 }
 
-.box{
-    background:#111;
-    padding:30px;
-    border-radius:20px;
-    text-align:center;
-    box-shadow:0 0 30px #6ea8ff;
-}
-
-input{
+nav button{
     margin:10px;
-    padding:10px;
-    border-radius:20px;
+    padding:12px 25px;
     border:none;
-    width:200px;
-}
-
-button{
-    padding:10px 20px;
-    border:none;
-    border-radius:20px;
-    background:linear-gradient(45deg,#6ea8ff,#a66eff);
+    border-radius:25px;
+    background:rgba(255,255,255,0.08);
     color:white;
     cursor:pointer;
+    backdrop-filter:blur(10px);
+    transition:0.3s;
 }
 
-/* APP */
-#app{
-    display:none;
+nav button:hover{
+    background:linear-gradient(45deg,#6ea8ff,#a66eff);
+    transform:scale(1.1);
 }
 
-nav{
-    background:#111;
-    padding:10px;
-    text-align:center;
-}
-
+/* SECTIONS */
 .section{
+    display:none;
     padding:40px;
     text-align:center;
+    animation:fade 0.5s;
+    position:relative;
+    z-index:2;
+}
+
+.active{
+    display:block;
+}
+
+@keyframes fade{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+/* IFRAMES */
+iframe{
+    margin-top:20px;
+    width:90%;
+    height:500px;
+    border-radius:20px;
+    border:none;
+    box-shadow:0 0 30px rgba(120,160,255,0.6);
 }
 
 /* LABO */
 #laboZone{
-    width:200px;
-    height:200px;
-    margin:20px auto;
-    background:#222;
-    border-radius:20px;
+    width:250px;
+    height:250px;
+    margin:40px auto;
+    border-radius:25px;
+    background:radial-gradient(circle,#111,#222);
+    box-shadow:0 0 40px #6ea8ff;
+    position:relative;
+    overflow:hidden;
 }
 
-/* IA */
-#answer{
-    margin-top:10px;
+/* BULLES */
+.bubble{
+    position:absolute;
+    bottom:0;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    animation:rise 3s linear infinite;
+}
+
+@keyframes rise{
+    0%{transform:translateY(0);opacity:1;}
+    100%{transform:translateY(-200px);opacity:0;}
+}
+
+/* BOUTONS */
+button.action{
+    margin:10px;
+    padding:12px 25px;
+    border:none;
+    border-radius:25px;
+    background:linear-gradient(45deg,#6ea8ff,#a66eff);
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button.action:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 20px #8ab4ff;
+}
+
+/* RESULTAT */
+#resultat{
+    margin-top:20px;
+    font-size:20px;
+}
+
+/* TEXTE PULSE */
+.pulse{
+    animation:pulse 1s infinite alternate;
+}
+
+@keyframes pulse{
+    from{color:#ff00ff;}
+    to{color:#00ffff;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div id="auth">
-<div class="box">
-<h2>Connexion</h2>
-<input id="user" placeholder="Nom"><br>
-<input id="pass" type="password" placeholder="Mot de passe"><br>
-<button onclick="login()">Entrer</button>
-<p id="msg"></p>
-</div>
-</div>
+<div class="overlay"></div>
+<div class="light"></div>
 
-<!-- APP -->
-<div id="app">
+<header>🔬 ScienceLab Ultime</header>
 
 <nav>
 <button onclick="show('home')">Accueil</button>
+<button onclick="show('college')">Collège</button>
+<button onclick="show('lycee')">Lycée</button>
 <button onclick="show('labo')">Labo</button>
-<button onclick="logout()">Déconnexion</button>
 </nav>
 
-<div id="home" class="section">
-<h2>Bienvenue <span id="username"></span> 👋</h2>
-<p>Ton laboratoire personnel</p>
+<!-- HOME -->
+<div id="home" class="section active">
+<h1>Bienvenue 👋</h1>
+<p>Explore la science comme jamais 🚀</p>
 </div>
 
+<!-- COLLEGE -->
+<div id="college" class="section">
+<h2>Collège</h2>
+<iframe src="https://phet.colorado.edu/sims/html/states-of-matter/latest/states-of-matter_en.html"></iframe>
+</div>
+
+<!-- LYCEE -->
+<div id="lycee" class="section">
+<h2>Lycée</h2>
+<iframe src="https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_en.html"></iframe>
+</div>
+
+<!-- LABO -->
 <div id="labo" class="section">
 <h2>🧪 Labo</h2>
 
 <div id="laboZone"></div>
 
-<button onclick="acide()">Acide</button>
-<button onclick="base()">Base</button>
-<button onclick="reset()">Reset</button>
+<button class="action" onclick="acide()">Acide</button>
+<button class="action" onclick="base()">Base</button>
+<button class="action" onclick="reset()">Reset</button>
 
-<p id="res">Aucune réaction</p>
-
-<h3>🧠 Mini IA</h3>
-<input id="q" placeholder="Question...">
-<button onclick="ask()">OK</button>
-<p id="answer"></p>
-
-</div>
-
+<p id="resultat">Aucune réaction</p>
 </div>
 
 <script>
-
-/* AUTH */
-function login(){
-    let u=document.getElementById("user").value;
-    let p=document.getElementById("pass").value;
-
-    if(u && p){
-        localStorage.setItem("user",u);
-        start();
-    }else{
-        document.getElementById("msg").innerText="Remplis tout";
-    }
-}
-
-function start(){
-    let u=localStorage.getItem("user");
-    if(u){
-        document.getElementById("auth").style.display="none";
-        document.getElementById("app").style.display="block";
-        document.getElementById("username").innerText=u;
-    }
-}
-
-function logout(){
-    localStorage.removeItem("user");
-    location.reload();
-}
-
-start();
-
-/* NAV */
 function show(id){
-    document.querySelectorAll(".section").forEach(s=>s.style.display="none");
-    document.getElementById(id).style.display="block";
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
 }
 
-/* LABO */
 let a=0,b=0;
 const labo=document.getElementById("laboZone");
-const res=document.getElementById("res");
+const res=document.getElementById("resultat");
 
 function acide(){a++;update();}
 function base(){b++;update();}
+
 function update(){
+    labo.innerHTML='';
     if(a>0 && b>0){
-        labo.style.background="linear-gradient(#ff00ff,#00ffff)";
-        res.innerText="💥 Réaction!";
-        localStorage.setItem("reaction","faite");
+        labo.style.background="radial-gradient(circle,#ff00ff,#00ffff)";
+        res.innerHTML="💥 <span class='pulse'>Réaction réussie</span>";
+
+        for(let i=0;i<6;i++){
+            let div=document.createElement("div");
+            div.className="bubble";
+            div.style.left=Math.random()*100+"%";
+            div.style.background=Math.random()<0.5?"#ff00ff":"#00ffff";
+            labo.appendChild(div);
+        }
     }
 }
+
 function reset(){
     a=0;b=0;
-    labo.style.background="#222";
-    res.innerText="Aucune réaction";
+    labo.innerHTML="";
+    labo.style.background="radial-gradient(circle,#111,#222)";
+    res.innerHTML="Aucune réaction";
 }
-
-/* IA */
-function ask(){
-    let q=document.getElementById("q").value.toLowerCase();
-    let ans="Je ne sais pas";
-
-    if(q.includes("eau")) ans="H2O 💧";
-    if(q.includes("acide")) ans="Donne H+";
-    if(q.includes("base")) ans="Prend H+";
-
-    document.getElementById("answer").innerText=ans;
-}
-
 </script>
 
 </body>
