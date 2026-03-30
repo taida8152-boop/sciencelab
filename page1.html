@@ -2,142 +2,198 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>ScienceLab</title>
+<title>ScienceLab PRO</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:#0a0a0f;
+    color:white;
 }
 
-body {
-    font-family: 'Segoe UI', sans-serif;
-    color: white;
-    height: 100vh;
-    overflow: hidden;
-    background: url("https://images.unsplash.com/photo-1502139214982-d0ad755818d8") no-repeat center/cover;
+/* LOGIN */
+#auth{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
 }
 
-/* Overlay sombre */
-.overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
+.box{
+    background:#111;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 0 30px #6ea8ff;
 }
 
-/* 💡 Lumière */
-.light {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 400px;
-    height: 600px;
-    background: radial-gradient(ellipse at center, rgba(255,255,255,0.25), transparent 70%);
-    filter: blur(50px);
+input{
+    margin:10px;
+    padding:10px;
+    border-radius:20px;
+    border:none;
+    width:200px;
 }
 
-/* 🧭 Navbar */
-.navbar {
-    position: absolute;
-    top: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    z-index: 2;
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    background:linear-gradient(45deg,#6ea8ff,#a66eff);
+    color:white;
+    cursor:pointer;
 }
 
-.navbar ul {
-    display: flex;
-    gap: 30px;
-    list-style: none;
-    background: rgba(255,255,255,0.05);
-    padding: 10px 25px;
-    border-radius: 30px;
-    backdrop-filter: blur(10px);
+/* APP */
+#app{
+    display:none;
 }
 
-.navbar li {
-    cursor: pointer;
-    transition: 0.3s;
+nav{
+    background:#111;
+    padding:10px;
+    text-align:center;
 }
 
-.navbar li:hover {
-    color: #8ab4ff;
+.section{
+    padding:40px;
+    text-align:center;
 }
 
-/* 📦 Contenu */
-.container {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    top: 50%;
-    transform: translateY(-50%);
+/* LABO */
+#laboZone{
+    width:200px;
+    height:200px;
+    margin:20px auto;
+    background:#222;
+    border-radius:20px;
 }
 
-/* 🧠 Titre */
-h1 {
-    font-size: 70px;
-    letter-spacing: 4px;
-    text-shadow: 0 0 25px rgba(255,255,255,0.6);
-}
-
-/* 📝 Texte */
-p {
-    margin-top: 15px;
-    color: #ccc;
-    font-size: 18px;
-}
-
-/* 🚀 Bouton */
-button {
-    margin-top: 30px;
-    padding: 14px 35px;
-    border: none;
-    border-radius: 30px;
-    background: linear-gradient(45deg, #6ea8ff, #a66eff);
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 30px rgba(120,160,255,0.9);
-}
-
-/* 📱 Responsive */
-@media (max-width: 600px) {
-    h1 {
-        font-size: 40px;
-    }
+/* IA */
+#answer{
+    margin-top:10px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="overlay"></div>
-<div class="light"></div>
-
-<!-- Navbar -->
-<div class="navbar">
-    <ul>
-        <li>Accueil</li>
-        <li>Expériences</li>
-        <li>Contact</li>
-    </ul>
+<!-- LOGIN -->
+<div id="auth">
+<div class="box">
+<h2>Connexion</h2>
+<input id="user" placeholder="Nom"><br>
+<input id="pass" type="password" placeholder="Mot de passe"><br>
+<button onclick="login()">Entrer</button>
+<p id="msg"></p>
+</div>
 </div>
 
-<!-- Contenu -->
-<div class="container">
-    <h1>ScienceLab</h1>
-    <p>Where science meets the future</p>
-    <button onclick="alert('Bienvenue dans ScienceLab 🚀')">Commencer</button>
+<!-- APP -->
+<div id="app">
+
+<nav>
+<button onclick="show('home')">Accueil</button>
+<button onclick="show('labo')">Labo</button>
+<button onclick="logout()">Déconnexion</button>
+</nav>
+
+<div id="home" class="section">
+<h2>Bienvenue <span id="username"></span> 👋</h2>
+<p>Ton laboratoire personnel</p>
 </div>
+
+<div id="labo" class="section">
+<h2>🧪 Labo</h2>
+
+<div id="laboZone"></div>
+
+<button onclick="acide()">Acide</button>
+<button onclick="base()">Base</button>
+<button onclick="reset()">Reset</button>
+
+<p id="res">Aucune réaction</p>
+
+<h3>🧠 Mini IA</h3>
+<input id="q" placeholder="Question...">
+<button onclick="ask()">OK</button>
+<p id="answer"></p>
+
+</div>
+
+</div>
+
+<script>
+
+/* AUTH */
+function login(){
+    let u=document.getElementById("user").value;
+    let p=document.getElementById("pass").value;
+
+    if(u && p){
+        localStorage.setItem("user",u);
+        start();
+    }else{
+        document.getElementById("msg").innerText="Remplis tout";
+    }
+}
+
+function start(){
+    let u=localStorage.getItem("user");
+    if(u){
+        document.getElementById("auth").style.display="none";
+        document.getElementById("app").style.display="block";
+        document.getElementById("username").innerText=u;
+    }
+}
+
+function logout(){
+    localStorage.removeItem("user");
+    location.reload();
+}
+
+start();
+
+/* NAV */
+function show(id){
+    document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+    document.getElementById(id).style.display="block";
+}
+
+/* LABO */
+let a=0,b=0;
+const labo=document.getElementById("laboZone");
+const res=document.getElementById("res");
+
+function acide(){a++;update();}
+function base(){b++;update();}
+function update(){
+    if(a>0 && b>0){
+        labo.style.background="linear-gradient(#ff00ff,#00ffff)";
+        res.innerText="💥 Réaction!";
+        localStorage.setItem("reaction","faite");
+    }
+}
+function reset(){
+    a=0;b=0;
+    labo.style.background="#222";
+    res.innerText="Aucune réaction";
+}
+
+/* IA */
+function ask(){
+    let q=document.getElementById("q").value.toLowerCase();
+    let ans="Je ne sais pas";
+
+    if(q.includes("eau")) ans="H2O 💧";
+    if(q.includes("acide")) ans="Donne H+";
+    if(q.includes("base")) ans="Prend H+";
+
+    document.getElementById("answer").innerText=ans;
+}
+
+</script>
 
 </body>
 </html>
