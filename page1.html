@@ -5,9 +5,7 @@
 <title>ScienceLab Ultime</title>
 
 <style>
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
@@ -17,11 +15,9 @@ body {
   overflow-x: hidden;
 }
 
-/* CANVAS BACKGROUND */
+/* BACKGROUND */
 #bg {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   z-index: -1;
@@ -32,13 +28,9 @@ header {
   text-align: center;
   padding: 30px;
   background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(5px);
 }
 
-header h1 {
-  color: cyan;
-  font-size: 2.5em;
-}
+header h1 { color: cyan; }
 
 /* NAV */
 nav {
@@ -49,28 +41,17 @@ nav {
 }
 
 nav a button {
-  background: linear-gradient(145deg, #00ffff, #0066ff);
-  border: none;
   padding: 12px 20px;
+  border: none;
   border-radius: 10px;
+  background: linear-gradient(145deg, cyan, blue);
   color: white;
   cursor: pointer;
-  transition: 0.3s;
-}
-
-nav a button:hover {
-  transform: scale(1.1);
 }
 
 /* SECTIONS */
-section {
-  padding: 60px 20px;
-  text-align: center;
-}
-
-h2 {
-  color: cyan;
-}
+section { padding: 60px 20px; text-align: center; }
+h2 { color: cyan; }
 
 /* CARDS */
 .container {
@@ -84,17 +65,11 @@ h2 {
   background: rgba(0,0,0,0.7);
   padding: 20px;
   border-radius: 15px;
-  width: 250px;
-  box-shadow: 0 0 15px rgba(0,255,255,0.3);
-  transition: 0.3s;
+  width: 260px;
+  box-shadow: 0 0 15px cyan;
 }
 
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 0 25px cyan;
-}
-
-.card button {
+button {
   margin-top: 10px;
   padding: 10px;
   border: none;
@@ -104,107 +79,107 @@ h2 {
   cursor: pointer;
 }
 
-/* FOOTER */
-footer {
-  text-align: center;
-  padding: 20px;
+/* ZONE SIMULATION */
+.zone {
+  height: 150px;
   background: black;
-  color: gray;
+  border-radius: 10px;
+  position: relative;
+  margin-top: 10px;
+}
+
+/* POPUP */
+#popup {
+  position: fixed;
+  top:0;left:0;width:100%;height:100%;
+  background: rgba(0,0,0,0.8);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+#popup-content {
+  background:#111;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 0 20px cyan;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ANIMATION BACKGROUND -->
 <canvas id="bg"></canvas>
 
 <header>
-  <h1>ScienceLab Virtuel</h1>
+  <h1>ScienceLab Virtuel 👨🏾‍🔬</h1>
 </header>
 
-<!-- NAVIGATION -->
 <nav>
-  <a href="#intro"><button>Accueil</button></a>
   <a href="#physique"><button>Physique</button></a>
   <a href="#chimie"><button>Chimie</button></a>
-  <a href="#bio"><button>Biologie</button></a>
 </nav>
 
-<section id="intro">
-  <h2>Bienvenue 👨🏾‍🔬</h2>
-  <p>Explore la science avec des expériences interactives !</p>
-</section>
-
+<!-- PHYSIQUE -->
 <section id="physique">
-  <h2>Physique ⚡</h2>
-  <div class="container">
+<h2>Physique ⚡</h2>
 
-    <div class="card">
-      <h3>Chute libre</h3>
-      <p>Tous les objets tombent à la même vitesse.</p>
-      <button onclick="alert('Gravité = 9.8 m/s²')">Tester</button>
-    </div>
+<div class="container">
 
-    <div class="card">
-      <h3>Pendule</h3>
-      <p>Le temps dépend de la longueur.</p>
-      <button onclick="alert('Plus long = plus lent')">Tester</button>
-    </div>
+<!-- CHUTE LIBRE -->
+<div class="card">
+<h3>Chute libre</h3>
+<div class="zone">
+<div id="balle" style="width:20px;height:20px;background:cyan;border-radius:50%;position:absolute;top:0;left:50%;"></div>
+</div>
+<button onclick="startFall()">Lancer</button>
+</div>
 
-    <div class="card">
-      <h3>Électricité</h3>
-      <p>Certains matériaux conduisent.</p>
-      <button onclick="alert('Métal = conducteur')">Tester</button>
-    </div>
+<!-- PENDULE -->
+<div class="card">
+<h3>Pendule</h3>
+<div class="zone">
+<div id="pendule" style="width:2px;height:100px;background:cyan;margin:auto;transform-origin:top;"></div>
+</div>
+<button onclick="startPendule()">Démarrer</button>
+</div>
 
-  </div>
+<!-- ELECTRICITE -->
+<div class="card">
+<h3>Électricité</h3>
+<button onclick="testConducteur('metal')">Métal</button>
+<button onclick="testConducteur('bois')">Bois</button>
+<p id="resultat"></p>
+</div>
+
+</div>
 </section>
 
+<!-- CHIMIE -->
 <section id="chimie">
-  <h2>Chimie 🧪</h2>
-  <div class="container">
+<h2>Chimie 🧪</h2>
 
-    <div class="card">
-      <h3>Réaction</h3>
-      <p>Mélange des substances.</p>
-      <button onclick="alert('Réaction chimique !')">Tester</button>
-    </div>
+<div class="container">
+<div class="card">
+<h3>Réaction</h3>
+<button onclick="showPopup('Réaction chimique en cours !')">Lancer</button>
+</div>
+</div>
 
-    <div class="card">
-      <h3>pH</h3>
-      <p>Acide ou base.</p>
-      <button onclick="alert('pH < 7 = acide')">Tester</button>
-    </div>
-
-  </div>
 </section>
 
-<section id="bio">
-  <h2>Biologie 🌱</h2>
-  <div class="container">
-
-    <div class="card">
-      <h3>Cellule</h3>
-      <p>Unité du vivant.</p>
-      <button onclick="alert('Toutes les cellules ont une membrane')">Tester</button>
-    </div>
-
-    <div class="card">
-      <h3>Plantes</h3>
-      <p>Photosynthèse.</p>
-      <button onclick="alert('Lumière + CO2 = énergie')">Tester</button>
-    </div>
-
+<!-- POPUP -->
+<div id="popup">
+  <div id="popup-content">
+    <p id="popup-text"></p>
+    <button onclick="closePopup()">OK</button>
   </div>
-</section>
+</div>
 
-<footer>
-  2026 - ScienceLab Ultime 🚀
-</footer>
-
-<!-- SCRIPT ANIMATION -->
+<!-- SCRIPT -->
 <script>
+
+/* ===== BACKGROUND ===== */
 const canvas = document.getElementById("bg");
 const ctx = canvas.getContext("2d");
 
@@ -215,39 +190,69 @@ function resize() {
 resize();
 
 let particles = [];
-
 for (let i = 0; i < 80; i++) {
   particles.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 2,
-    dx: (Math.random() - 0.5),
-    dy: (Math.random() - 0.5)
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    dx:(Math.random()-0.5),
+    dy:(Math.random()-0.5)
   });
 }
 
 function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  particles.forEach(p => {
-    p.x += p.dx;
-    p.y += p.dy;
-
-    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = "cyan";
-    ctx.fill();
+  particles.forEach(p=>{
+    p.x+=p.dx; p.y+=p.dy;
+    ctx.fillStyle="cyan";
+    ctx.fillRect(p.x,p.y,2,2);
   });
 
   requestAnimationFrame(animate);
 }
-
 animate();
 
-window.addEventListener("resize", resize);
+/* ===== CHUTE LIBRE ===== */
+function startFall() {
+  let balle = document.getElementById("balle");
+  let y=0, v=0;
+
+  let fall = setInterval(()=>{
+    v+=0.5;
+    y+=v;
+    balle.style.top=y+"px";
+
+    if(y>130) clearInterval(fall);
+  },20);
+}
+
+/* ===== PENDULE ===== */
+function startPendule() {
+  let p = document.getElementById("pendule");
+  let angle=-30, dir=1;
+
+  setInterval(()=>{
+    angle+=dir*2;
+    if(angle>30||angle<-30) dir*=-1;
+    p.style.transform="rotate("+angle+"deg)";
+  },30);
+}
+
+/* ===== ELECTRICITE ===== */
+function testConducteur(type){
+  let r=document.getElementById("resultat");
+  r.innerText = (type==="metal") ? "✔ Conducteur" : "✖ Isolant";
+}
+
+/* ===== POPUP ===== */
+function showPopup(text){
+  document.getElementById("popup").style.display="flex";
+  document.getElementById("popup-text").innerText=text;
+}
+function closePopup(){
+  document.getElementById("popup").style.display="none";
+}
+
 </script>
 
 </body>
