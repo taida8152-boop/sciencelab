@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Une petite surprise...</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --premium-gold: #D4AF37;
+            --premium-brown: #5C4033;
+            --premium-beige: #F5F5DC;
+            --white: #FFFFFF;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: var(--premium-beige);
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            color: var(--premium-brown);
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(92, 64, 51, 0.1);
+            border: 1px solid var(--premium-gold);
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; }
+
+        .btn-container {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+        }
+
+        button {
+            padding: 12px 30px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        #btn-oui {
+            background-color: var(--premium-gold);
+            color: white;
+        }
+
+        #btn-non {
+            background-color: var(--premium-brown);
+            color: white;
+            position: relative;
+        }
+
+        /* Écrans cachés par défaut */
+        #ecran-cadeaux, #ecran-final { display: none; }
+
+        .gift-box {
+            border: 1px solid var(--premium-gold);
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .gift-box:hover { background-color: #faf7f0; }
+    </style>
+</head>
+<body>
+
+    <div id="ecran-question" class="container">
+        <h1 id="question-text">Est-ce que tu veux être mon "April Fool" ?</h1>
+        <div class="btn-container">
+            <button id="btn-oui" onclick="versCadeaux()">OUI</button>
+            <button id="btn-non">NON</button>
+        </div>
+    </div>
+
+    <div id="ecran-cadeaux" class="container">
+        <h1>Je savais que tu dirais oui... ✨</h1>
+        <p>Choisis ton cadeau :</p>
+        <div class="gift-box" onclick="ouvrirFinal('Nos souvenirs')">🎁 CADEAU 1</div>
+        <div class="gift-box" onclick="ouvrirFinal('Une chanson pour nous')">🎁 CADEAU 2</div>
+        <div class="gift-box" onclick="ouvrirFinal('Une lettre spéciale')">🎁 CADEAU 3</div>
+    </div>
+
+    <div id="ecran-final" class="container">
+        <h1 id="titre-final"></h1>
+        <p>Contenu personnalisé à ajouter ici !</p>
+        <button onclick="location.reload()" style="background: none; border: 1px solid var(--premium-gold); color: var(--premium-gold); margin-top: 10px;">Retour</button>
+    </div>
+
+    <script>
+        const btnNon = document.getElementById('btn-non');
+        
+        // Logique du bouton qui s'échappe
+        btnNon.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - btnNon.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btnNon.offsetHeight);
+            btnNon.style.position = 'absolute';
+            btnNon.style.left = x + 'px';
+            btnNon.style.top = y + 'px';
+        });
+
+        function versCadeaux() {
+            document.getElementById('ecran-question').style.display = 'none';
+            document.getElementById('ecran-cadeaux').style.display = 'block';
+        }
+
+        function ouvrirFinal(titre) {
+            document.getElementById('ecran-cadeaux').style.display = 'none';
+            document.getElementById('ecran-final').style.display = 'block';
+            document.getElementById('titre-final').innerText = titre;
+        }
+    </script>
+</body>
+</html>
